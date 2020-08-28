@@ -26,6 +26,22 @@ router.get("/one", (req, res) => {
   });
 });
 
+router.get("/duplicate-category/:id/:label", (req, res) => {
+  ProductCategory.find(
+    {
+      _id: { $ne: req.params._id },
+      ProductCategoryName: req.params.label,
+    },
+    (err, docs) => {
+      if (!err) {
+        res.send(docs);
+      } else {
+        console.log("Error in retrieving productCategory list :" + err);
+      }
+    }
+  );
+});
+
 router.post("/", (req, res) => {
   var productCategory = new ProductCategory();
   productCategory.RecDate = req.body.RecDate;
